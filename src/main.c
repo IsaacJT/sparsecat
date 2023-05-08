@@ -79,7 +79,7 @@ static int chunk_cb(void *priv __attribute__((unused)), const void *data,
 
 int main(int argc, char *argv[])
 {
-	struct sparse_file *sparse;
+	struct sparse_file *sparse = NULL;
 	int fd;
 	int ret;
 
