@@ -7,6 +7,8 @@ Maintainer: Isaac True <isaac@is.having.coffee>
 Build-Depends:
  debhelper-compat (= 13),
  android-libsparse-dev,
+ meson,
+ ninja-build,
 Standards-Version: 4.6.0
 Homepage: https://github.com/IsaacJT/sparsecat
 
