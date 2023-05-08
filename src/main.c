@@ -60,11 +60,15 @@ static void close_file(int fd, struct sparse_file *sparse)
 	close(fd);
 }
 
-static int chunk_cb(void *priv, const void *data, size_t len)
+static int chunk_cb(void *priv __attribute__((unused)), const void *data,
+		    size_t len)
 {
+	assert(data);
+
 	ssize_t ret = write(fileno(stdout), data, len);
 	if (ret == -1) {
-		fprintf(stderr, "Failed to write to stdout: %s\n", strerror(-errno));
+		fprintf(stderr, "Failed to write to stdout: %s\n",
+			strerror(-errno));
 		return errno;
 	} else if ((size_t)ret != len) {
 		fprintf(stderr, "Could only write %ld bytes\n", ret);
@@ -85,8 +89,8 @@ int main(int argc, char *argv[])
 	}
 
 	if (isatty(fileno(stdout))) {
-		fprintf(stderr,
-			"Refusing to write to stdout! (Hint: pipe this to another program)\n");
+		fprintf(stderr, "Refusing to write to stdout! "
+				"(Hint: pipe this to another program)\n");
 		return -EBADF;
 	}
 
