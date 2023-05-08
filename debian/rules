@@ -2,6 +2,16 @@
 # SPDX-License-Identifier: GPL-2.0
 
 include /usr/share/dpkg/default.mk
+include /usr/share/dpkg/architecture.mk
 
 %:
 	dh $@
+
+# As libsparse.so.0 is in a subdirectory, we need to tell dh_shlibdeps about
+# that location.
+override_dh_shlibdeps:
+	dh_shlibdeps -l/usr/lib/$(DEB_HOST_MULTIARCH)/android
+
+override_dh_installman:
+	pandoc $(CURDIR)/README.md -s -t man > $(CURDIR)/debian/sparsecat.1
+	dh_installman

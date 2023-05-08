@@ -2,4 +2,6 @@
 /*.substvars
 /debhelper*
 /files
-/sparsecat*
+/sparsecat
+/*.log
+/sparsecat.1
