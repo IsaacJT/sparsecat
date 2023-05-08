@@ -1,0 +1,17 @@
+Source: sparsecat
+Section: utils
+Priority: optional
+Maintainer: Isaac True <isaac@is.having.coffee>
+Build-Depends:
+ debhelper-compat (= 13),
+ android-libsparse-dev,
+Standards-Version: 4.6.0
+Homepage: https://github.com/IsaacJT/sparsecat
+
+Package: sparsecat
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: NXP HSE firmware headers
+ NXP HSE firmware headers for the S32G2 platform
