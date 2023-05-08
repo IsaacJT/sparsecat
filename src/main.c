@@ -54,7 +54,7 @@ static int open_file(const char *filename, struct sparse_file **sparse)
 
 static void close_file(int fd, struct sparse_file *sparse)
 {
-	if (!sparse) {
+	if (sparse) {
 		sparse_file_destroy(sparse);
 	}
 	close(fd);
