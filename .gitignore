@@ -1,2 +1,3 @@
-builddir
-.vscode
+/builddir
+/.vscode
+/obj-*
