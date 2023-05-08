@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Dependencies
+      run: sudo apt-get install -y meson ninja-build gcc android-libsparse-dev
+    - name: Meson
+      run: meson builddir
+    - name: Ninja
+      run: ninja -C builddir
