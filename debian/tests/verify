@@ -8,7 +8,7 @@ set -e
 
 echo "Creating 128MiB file with random data"
 ORIG_FILE=$(mktemp)
-dd if=/dev/random of=${ORIG_FILE} bs=1M count=128
+dd if=/dev/random of=${ORIG_FILE} bs=1M count=128 status=none
 
 echo "Converting the file to sparse format"
 SIMG_FILE=$(mktemp)
