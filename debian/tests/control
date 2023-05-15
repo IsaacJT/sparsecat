@@ -1,0 +1,4 @@
+Tests: verify
+Depends:
+ @,
+ android-sdk-libsparse-utils,

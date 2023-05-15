@@ -1,0 +1,27 @@
+#!/bin/sh
+# autopkgtest check: verify that sparsecat can reproduce the original file from
+# sparse image file
+# (C) 2023 Isaac True.
+# Author: Isaac True <isaac@is.having.coffee>
+
+set -e
+
+echo "Creating 128MiB file with random data"
+ORIG_FILE=$(mktemp)
+dd if=/dev/random of=${ORIG_FILE} bs=1M count=128
+
+echo "Converting the file to sparse format"
+SIMG_FILE=$(mktemp)
+img2simg ${ORIG_FILE} ${SIMG_FILE}
+
+echo "Recreate the original file using sparsecat"
+SC_FILE=$(mktemp)
+sparsecat ${SIMG_FILE} > ${SC_FILE}
+
+echo "Confirm the hashs match"
+test "$(sha256sum ${ORIG_FILE} | cut -f1 -d\ )" = "$(sha256sum ${SC_FILE} | cut -f1 -d\ )"
+
+echo "Checksums match!"
+
+echo "Cleaning up"
+rm -f ${ORIG_FILE} ${SIMG_FILE} ${SC_FILE}
