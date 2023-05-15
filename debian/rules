@@ -8,7 +8,10 @@ include /usr/share/dpkg/architecture.mk
 LDFLAGS += -Wl,-rpath=/usr/lib/$(DEB_HOST_MULTIARCH)/android
 
 %:
-	LDFLAGS="$(LDFLAGS)" dh $@
+	dh $@
+
+override_dh_auto_configure:
+	LDFLAGS="$(LDFLAGS)" dh_auto_configure
 
 # As libsparse.so.0 is in a subdirectory, we need to tell dh_shlibdeps about
 # that location.
