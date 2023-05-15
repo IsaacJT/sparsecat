@@ -35,6 +35,12 @@ static void close_file(int fd, struct sparse_file *sparse);
 static void print_info(struct sparse_file *sparse);
 static int chunk_cb(void *priv, const void *data, size_t len);
 
+/**
+ * Print some basic metadata about the sparse file
+ *
+ * @param sparse pointer to the sparse_file struct whose metadata should be
+ *               printed out
+ */
 static void print_info(struct sparse_file *sparse)
 {
 	assert(sparse);
@@ -47,6 +53,14 @@ static void print_info(struct sparse_file *sparse)
 		sparse_file_block_size(sparse));
 }
 
+/**
+ * Open the given file path and create a sparse_file struct
+ *
+ * @param file to open
+ * @param sparse pointer to the sparse_file struct to be initialised
+ *
+ * @return 0 if successful, error code if not
+ */
 static int open_file(const char *filename, struct sparse_file **sparse)
 {
 	int fd = 0;
@@ -73,6 +87,13 @@ static int open_file(const char *filename, struct sparse_file **sparse)
 	return fd;
 }
 
+/**
+ * Safely close the given sparse file referred
+ *
+ * @param fd open file descriptor that should be closed
+ * @param sparse pointer to the sparse file struct representing the sparse file
+ *               that fd points to
+ */
 static void close_file(int fd, struct sparse_file *sparse)
 {
 	if (sparse) {
@@ -81,6 +102,16 @@ static void close_file(int fd, struct sparse_file *sparse)
 	close(fd);
 }
 
+/**
+ * Function which will be called on each block of data inside the sparse file.
+ * Adhers to the function prototype accepted by sparse_file_callback()
+ *
+ * @param priv unused, required by function prototype
+ * @param data pointer to the data chunk inside the sparse image
+ * @param len length of the data chunk
+ *
+ * @return 0 if successful, error code if not
+ */
 static int chunk_cb(void *priv __attribute__((unused)), const void *data,
 		    size_t len)
 {
