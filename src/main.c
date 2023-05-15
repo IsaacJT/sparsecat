@@ -176,7 +176,8 @@ int main(int argc, char *argv[])
 	}
 
 	if (isatty(fileno(stdout))) {
-		fprintf(stderr, "Refusing to write to stdout! "
+		print_usage();
+		fprintf(stderr, "\nRefusing to write to stdout! "
 				"(Hint: pipe this to another program)\n");
 		return -EBADF;
 	}
