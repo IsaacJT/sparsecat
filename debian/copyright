@@ -2,6 +2,7 @@
 
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: sparsecat
+Upstream-Contact: Isaac True <isaac@is.having.coffee>
 
 Files: *
 Copyright: 2023 Isaac True

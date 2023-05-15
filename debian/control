@@ -10,8 +10,11 @@ Build-Depends:
  meson,
  ninja-build,
  pandoc,
-Standards-Version: 4.6.0
+Standards-Version: 4.6.1.0
+Rules-Requires-Root: no
 Homepage: https://github.com/IsaacJT/sparsecat
+Vcs-Browser: https://github.com/IsaacJT/sparsecat
+Vcs-Git: https://github.com/IsaacJT/sparsecat.git -b main
 
 Package: sparsecat
 Architecture: any
