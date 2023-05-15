@@ -1,0 +1,4 @@
+# libsparse is located in /usr/lib/${DEB_HOST_MULTIARCH}/android,
+# meaning that the rpath needs to be set. Override the lintian error here.
+
+custom-library-search-path
