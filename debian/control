@@ -18,5 +18,6 @@ Architecture: any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
-Description: NXP HSE firmware headers
- NXP HSE firmware headers for the S32G2 platform
+Description: Tool for extracting the data from an Android sparse image
+ Sparsecat can be used to pipe the data extracted from an Android sparse image
+ to stdout.
