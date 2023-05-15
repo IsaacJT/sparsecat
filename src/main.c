@@ -26,14 +26,17 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <stdlib.h>
 
 static int open_file(const char *filename, struct sparse_file **sparse);
 static void close_file(int fd, struct sparse_file *sparse);
 static void print_info(struct sparse_file *sparse);
 static int chunk_cb(void *priv, const void *data, size_t len);
+static void print_usage(void);
 
 /**
  * Print some basic metadata about the sparse file
@@ -82,8 +85,6 @@ static int open_file(const char *filename, struct sparse_file **sparse)
 
 	*sparse = _sparse;
 
-	fprintf(stderr, "File opened: %s\n", filename);
-
 	return fd;
 }
 
@@ -129,15 +130,49 @@ static int chunk_cb(void *priv __attribute__((unused)), const void *data,
 	return 0;
 }
 
+/**
+ * Print the argument usage and copyright info
+ */
+static void print_usage(void)
+{
+	fprintf(stderr,
+		"sparsecat: tool for extracting the data from an Android "
+		"sparse image\n");
+	fprintf(stderr, "Created by Isaac True <isaac@is.having.coffee>\n");
+	fprintf(stderr, "Usage: sparsecat [-h] [-v] <filename>\n");
+	fprintf(stderr, "  -v: verbose output\n");
+	fprintf(stderr, "  -h: display this text and exit\n");
+	fprintf(stderr, "  filename: path to the Android sparse image\n");
+}
+
 int main(int argc, char *argv[])
 {
 	struct sparse_file *sparse = NULL;
 	int fd;
 	int ret;
+	int c;
+	bool verbose = false;
 
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <sparse file>\n", argv[0]);
-		return -EINVAL;
+	while ((c = getopt(argc, argv, "vh")) != -1) {
+		switch (c) {
+		case 'h':
+			print_usage();
+			return -1;
+		case 'v':
+			verbose = true;
+			break;
+		case '?':
+			if (isprint(optopt))
+				fprintf(stderr, "Unknown option `-%c'.\n",
+					optopt);
+			else
+				fprintf(stderr,
+					"Unknown option character `\\x%x'.\n",
+					optopt);
+			return 1;
+		default:
+			abort();
+		}
 	}
 
 	if (isatty(fileno(stdout))) {
@@ -153,7 +188,10 @@ int main(int argc, char *argv[])
 		return fd;
 	}
 
-	print_info(sparse);
+	if (verbose) {
+		fprintf(stderr, "File opened: %s\n", argv[1]);
+		print_info(sparse);
+	}
 
 	ret = sparse_file_callback(sparse, false, false, chunk_cb, NULL);
 	if (ret < 0) {
